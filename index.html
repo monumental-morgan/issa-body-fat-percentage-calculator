@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Body Fat Calculator</title>
+  <script>
+    function calculateBodyFat() {
+      let male_female = document.getElementById('gender').value;
+      let age = parseInt(document.getElementById('age').value);
+      let skinfold_1 = parseFloat(document.getElementById('skinfold_1').value);
+      let skinfold_2 = parseFloat(document.getElementById('skinfold_2').value);
+      let skinfold_3 = parseFloat(document.getElementById('skinfold_3').value);
+      let body_fat = 0;
+
+      if (['male'].includes(male_female)) {
+        let skinfold_sum = skinfold_1 + skinfold_2 + skinfold_3;
+        let body_density_male = 1.10938 - (0.0008267 * skinfold_sum) + (0.0000016 * (skinfold_sum * skinfold_sum)) - (0.0002574 * age);
+        // Brozek body fat equation for males
+        body_fat = ((4.570 / body_density_male) - 4.142) * 100;
+      } else if (['female'].includes(male_female)) {
+        let skinfold_sum = skinfold_1 + skinfold_2 + skinfold_3;
+        let body_density_female = 1.0994921 - (0.0009929 * skinfold_sum) + (0.0000023 * (skinfold_sum * skinfold_sum)) - (0.0001392 * age);
+        // Brozek body fat equation for females
+        body_fat = ((4.570 / body_density_female) - 4.142) * 100;
+      }
+
+      document.getElementById('result').innerHTML = `Body Fat % is: ${body_fat.toFixed(2)}`;
+    }
+  </script>
+</head>
+<body>
+  <h1>Body Fat Calculator</h1>
+  <form>
+    <label for="gender">Gender:</label>
+    <select id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    <br>
+    <label for="age">Age:</label>
+    <input type="number" id="age" required>
+    <br>
+    <label for="skinfold_1">Skinfold Measurement #1:</label>
+    <input type="number" id="skinfold_1" required>
+    <br>
+    <label for="skinfold_2">Skinfold Measurement #2:</label>
+    <input type="number" id="skinfold_2" required>
+    <br>
+    <label for="skinfold_3">Skinfold Measurement #3:</label>
+    <input type="number" id="skinfold_3" required>
+    <br>
+    <button type="button" onclick="calculateBodyFat()">Calculate</button>
+  </form>
+  <p id="result"></p>
+</body>
+</html>
